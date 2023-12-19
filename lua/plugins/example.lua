@@ -8,17 +8,21 @@
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
 return {
-  -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
   { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-{ import = "lazyvim.plugins.extras.ui.mini-animate" },
-    { import = "lazyvim.plugins.extras.coding.copilot" },
+  { import = "lazyvim.plugins.extras.ui.mini-animate" },
+  { import = "lazyvim.plugins.extras.coding.copilot" },
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "gruvbox",
-    },
+  },
+
+{
+    "bluz71/vim-nightfly-guicolors",
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      -- load the colorscheme here
+      vim.cmd([[colorscheme nightfly]])
+    end,
   },
 
   -- change trouble config
@@ -51,7 +55,7 @@ return {
   -- change some telescope options and a keymap to browse plugin files
   {
     "nvim-telescope/telescope.nvim",
-keys = {
+  keys = {
     -- change a keymap
     { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
     -- add a keymap to browse plugin files
@@ -59,7 +63,6 @@ keys = {
       "<leader>fp",
       function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end,
       desc = "Find Plugin File",
-    }
     },
     -- change some options
     opts = {
@@ -68,6 +71,14 @@ keys = {
         layout_config = { prompt_position = "top" },
         sorting_strategy = "ascending",
         winblend = 0,
+        preview_cutoff = 1,
+        mappings = {
+            i = {
+              ["<C-j>"]= require('telescope.actions').move_selection_next,
+              ["<C-k>"]= require('telescope.actions').move_selection_previous,
+              
+            }
+          }
       },
     },
   },
@@ -131,6 +142,8 @@ keys = {
       },
     },
   },
+
+  { "christoomey/vim-tmux-navigator" },
 
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
   -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
@@ -215,13 +228,6 @@ keys = {
   -- Use <tab> for completion and snippets (supertab)
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {
-    "L3MON4D3/LuaSnip",
-    keys = function()
-      return {}
-    end,
-  },
-  -- then: setup supertab in cmp
-  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-emoji",
@@ -238,7 +244,7 @@ keys = {
       local cmp = require("cmp")
 
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
-        ["<Tab>"] = cmp.mapping(function(fallback)
+        ["<C-k>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
             -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
@@ -251,7 +257,7 @@ keys = {
             fallback()
           end
         end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
+        ["<C-j>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
           elseif luasnip.jumpable(-1) then
@@ -263,4 +269,4 @@ keys = {
       })
     end,
   },
-}
+}}
