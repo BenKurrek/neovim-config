@@ -144,6 +144,25 @@ return {
   },
 
   { "christoomey/vim-tmux-navigator" },
+  {
+    "numToStr/Comment.nvim",
+      event = { "BufReadPre", "BufNewFile" },
+      dependencies = {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+      },
+      config = function()
+        -- import comment plugin safely
+        local comment = require("Comment")
+
+        local ts_context_commentstring = require("ts_context_commentstring.integrations.comment_nvim")
+
+        -- enable comment
+        comment.setup({
+          -- for commenting tsx and jsx files
+          pre_hook = ts_context_commentstring.create_pre_hook(),
+        })
+      end
+    },
 
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
   -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
@@ -243,7 +262,14 @@ return {
       local luasnip = require("luasnip")
       local cmp = require("cmp")
 
+      cmp.setup({
+preselect = cmp.PreselectMode.None,
+        })
+
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
+        -- Press tab to accept the selected item instead of enter
+        ["<Tab>"] = cmp.mapping.confirm({ select = true }),
+        ["<S-Tab>"] = cmp.mapping.confirm({ select = true }),
         ["<C-k>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
