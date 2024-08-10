@@ -1,6 +1,9 @@
 return {
 	"mfussenegger/nvim-lint",
-	event = { "BufReadPre", "BufNewFile" },
+	event = {
+		"BufReadPre",
+		"BufNewFile",
+	},
 	config = function()
 		local lint = require("lint")
 
@@ -11,7 +14,6 @@ return {
 			typescriptreact = { "eslint_d" },
 			svelte = { "eslint_d" },
 			python = { "pylint" },
-			rust = { "rstcheck" },
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
