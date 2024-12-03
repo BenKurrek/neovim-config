@@ -41,32 +41,6 @@ return {
 						fallback()
 					end
 				end, { "i", "s" }),
-				["<C-l>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						local entry = cmp.get_selected_entry()
-						if entry and entry.source.name == "codeium" then
-							vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-g>u", true, true, true), "n")
-							cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
-						else
-							fallback()
-						end
-					else
-						fallback()
-					end
-				end, { "i", "s" }),
-				["<C-]>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						local entry = cmp.get_selected_entry()
-						if entry and entry.source.name == "codeium" then
-							vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-g>u", true, true, true), "n")
-							cmp.confirm({ select = true })
-						else
-							fallback()
-						end
-					else
-						fallback()
-					end
-				end, { "i", "s" }),
 				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept other suggestions with Enter
 				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
 				["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion

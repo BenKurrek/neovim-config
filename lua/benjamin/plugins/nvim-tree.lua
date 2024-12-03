@@ -45,7 +45,10 @@ return {
 			}, -- enable update_focused_file to follow the current file
 			update_focused_file = {
 				enable = true,
-				update_cwd = true,
+			},
+			trash = {
+				cmd = "trash", -- Command to use for moving files to trash
+				require_confirm = true, -- Ask for confirmation before deleting
 			},
 		})
 
