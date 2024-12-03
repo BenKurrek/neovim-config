@@ -2,6 +2,7 @@ return {
 	"williamboman/mason.nvim",
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
+		"neovim/nvim-lspconfig", -- Added dependency
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	config = function()
@@ -26,11 +27,11 @@ return {
 		mason_lspconfig.setup({
 			-- list of servers for mason to install
 			ensure_installed = {
-				"tsserver",
+				"ts_ls",
 				"html",
 				"jsonls",
 				"marksman",
-				"basedpyright",
+				"pyright",
 				"rust_analyzer",
 				"cssls",
 				"tailwindcss",
@@ -38,21 +39,20 @@ return {
 				"lua_ls",
 				"graphql",
 				"emmet_ls",
-				"prismals",
-				"pyright",
+				"prismals", -- Ensure this is the correct server name
 			},
 		})
 
 		mason_tool_installer.setup({
 			ensure_installed = {
-				"prettier", -- prettier formatter
-				"stylua", -- lua formatter
-				"isort", -- python formatter
-				"black", -- python formatter
+				"prettier", -- Prettier formatter
+				"stylua", -- Lua formatter
+				"isort", -- Python formatter
+				"black", -- Python formatter
 				"pylint",
 				"eslint_d",
 				"rstcheck",
-				"rustfmt", -- rust formatter
+				"rustfmt", -- Rust formatter
 			},
 		})
 	end,
